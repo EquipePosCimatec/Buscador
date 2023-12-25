@@ -146,7 +146,7 @@ def main():
 
             # Imprimir o link da página
             link_pagina = f"{link}#page={numero_pagina}"
-            st.write(f"- Página {numero_pagina}: {link_pagina}")
+            st.write(f"-Página {numero_pagina}: {link_pagina}")
             # st.write(f"- Página {numero_pagina} (Linhas {linha_inicial}-{linha_final}): {link_pagina}")
 
             # Imprimir a contagem de ocorrências na página
