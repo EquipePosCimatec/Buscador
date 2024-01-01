@@ -81,7 +81,7 @@ def main():
         return
 
     except Exception as e:
-        st.error(f"Erro ao carregar o Diário Oficial: A data informada não teve publicação de Diário Oficial ou o Diário Oficial ainda não foi disponibilizado no servidor do MPBA. Se a data: {data_usuario} for dia útil, tente novamente mais tarde.")
+        st.error(f"Erro ao carregar o Diário Oficial: A data informada não teve publicação de Diário Oficial. Se o dia: {data_usuario} for a data de hoje, possivelmente o Diário Oficial ainda não foi disponibilizado no servidor do MPBA, neste caso, tente novamente mais tarde.")
         return
 
     # Solicitar o texto a ser buscado
