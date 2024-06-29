@@ -29,7 +29,7 @@ def main():
 
     # Botão para iniciar a busca
     if st.button("Confirmar data"):
-        st.experimental_rerun()  # Encerra a execução do Streamlit
+        st.rerun()  # Encerra a execução do Streamlit
 
     # Verificar se o usuário pressionou Enter sem digitar um texto de busca
     if not data_usuario:
@@ -90,7 +90,7 @@ def main():
 
     # Botão para iniciar a busca
     if st.button("Buscar"):
-        st.experimental_rerun() # Encerra a execução do Streamlit
+        st.rerun() # Encerra a execução do Streamlit
 
     # Verificar se o usuário pressionou Enter sem digitar um texto de busca
     if not texto_busca:
@@ -155,7 +155,7 @@ def main():
         st.write(f"\nO texto '{texto_busca}' não foi encontrado no Diário Oficial.\n")
 
 if st.button("Reiniciar o Aplicativo"):
-    st.experimental_rerun()
+    st.rerun()
 
 if __name__ == "__main__":
     main()
