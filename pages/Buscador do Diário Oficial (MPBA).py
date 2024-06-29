@@ -33,9 +33,9 @@ def main():
 
     # Verificar se o usuário pressionou Enter sem digitar um texto de busca
     if not data_usuario:
-        st.markdown("<font color='blue'>Por favor, digite uma data válida no formato DD/MM/AAAA.",
+        st.markdown("<font color='blue'>Por favor, digite uma data válida no formato DD/MM/AAAA.</font>",
                     unsafe_allow_html=True)
-        st.stop()  # Encerra a execução do Streamlit se o texto de busca
+        st.stop()  # Encerra a execução do Streamlit se o texto de busca estiver vazio
 
     try:
         # Converter a data fornecida pelo usuário
@@ -43,15 +43,21 @@ def main():
 
         # Gerar o link com a data convertida
         link = f"https://www.mpba.mp.br/sites/default/files/biblioteca/diariojustica/{data_convertida}.pdf"
+        st.write(f"Link gerado: {link}")  # Exibir o link gerado para depuração
 
         # Obter o conteúdo do PDF diretamente da resposta da solicitação
         response = requests.get(link)
+
+        # Verificar se a resposta foi bem-sucedida
+        if response.status_code != 200:
+            st.error(f"Erro ao acessar o PDF: Status code {response.status_code}")
+            return
 
         # Carregar o PDF com PyMuPDF a partir do conteúdo da resposta
         doc = fitz.open("pdf", response.content)
 
         # Informar o número de páginas do PDF
-        st.write(f"\nO Diário Oficial do dia {data_usuario}, referente às publicações do MPBA, possui {doc.page_count} páginas.\n")
+        st.write(f"O Diário Oficial do dia {data_usuario}, referente às publicações do MPBA, possui {doc.page_count} páginas.\n")
 
         # Inicializar uma lista para armazenar o texto completo
         texto_completo = []
@@ -74,14 +80,14 @@ def main():
         df_final = pd.read_csv(io.StringIO(texto_final), delimiter='\t', header=None)
 
         # Imprimir o DataFrame
-        # st.write(df_final)
+        st.write(df_final)
 
     except ValueError:
         st.error("Formato de data inválido. Certifique-se de digitar a data no formato correto DD/MM/AAAA.")
         return
 
     except Exception as e:
-        st.error("Erro ao carregar o PDF: A data informada não teve publicação de Diário Oficial.")
+        st.error(f"Erro ao carregar o PDF: {e}")
         return
 
     # Solicitar o texto a ser buscado
@@ -106,8 +112,7 @@ def main():
 
     # Imprimir o resultado
     if ocorrencias > 0:
-        st.write(
-            f"\nO texto '{texto_busca}' foi encontrado {ocorrencias} vez(es) no Diário Oficial do dia {data_usuario}.\n")
+        st.write(f"O texto '{texto_busca}' foi encontrado {ocorrencias} vez(es) no Diário Oficial do dia {data_usuario}.\n")
 
     # Contar ocorrências do texto em cada página
     ocorrencias_por_pagina = texto_final.lower().split("\n\n")
@@ -146,7 +151,7 @@ def main():
 
             # Imprimir o link da página
             link_pagina = f"{link}#page={numero_pagina}"
-            st.write(f"-Página {numero_pagina}: {link_pagina}")
+            st.write(f"- Página {numero_pagina}: {link_pagina}")
             # st.write(f"- Página {numero_pagina} (Linhas {linha_inicial}-{linha_final}): {link_pagina}")
 
             # Imprimir a contagem de ocorrências na página
