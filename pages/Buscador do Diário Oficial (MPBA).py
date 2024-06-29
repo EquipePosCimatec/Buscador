@@ -5,6 +5,10 @@ import requests
 import fitz  # PyMuPDF
 import io
 from unidecode import unidecode
+import urllib3
+
+# Ignorar avisos de SSL
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Função para substituir caracteres problemáticos
 def substituir_caracteres(texto):
@@ -45,8 +49,8 @@ def main():
         link = f"https://www.mpba.mp.br/sites/default/files/biblioteca/diariojustica/{data_convertida}.pdf"
         st.write(f"Link gerado: {link}")  # Exibir o link gerado para depuração
 
-        # Obter o conteúdo do PDF diretamente da resposta da solicitação
-        response = requests.get(link)
+        # Obter o conteúdo do PDF diretamente da resposta da solicitação, ignorando a verificação do certificado SSL
+        response = requests.get(link, verify=False)
 
         # Verificar se a resposta foi bem-sucedida
         if response.status_code != 200:
