@@ -47,7 +47,7 @@ def main():
 
         # Gerar o link com a data convertida
         link = f"https://www.mpba.mp.br/sites/default/files/biblioteca/diariojustica/{data_convertida}.pdf"
-        st.write(f"Link gerado: {link}")  # Exibir o link gerado para depuração
+        #st.write(f"Link gerado: {link}")  # Exibir o link gerado para depuração
 
         # Obter o conteúdo do PDF diretamente da resposta da solicitação, ignorando a verificação do certificado SSL
         response = requests.get(link, verify=False)
